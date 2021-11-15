@@ -1,0 +1,57 @@
+Syrjälä's network has n computers and m connections. Your task is to find out if Uolevi can send a message to Maija, and if it is possible, what is the minimum number of computers on such a route.
+
+Input
+
+The first input line has two integers n and m: the number of computers and connections. The computers are numbered 1,2,…,n. Uolevi's computer is 1 and Maija's computer is n.
+
+Then, there are m lines describing the connections. Each line has two integers a and b: there is a connection between those computers.
+
+Every connection is between two different computers, and there is at most one connection between any two computers.
+
+Output
+
+If it is possible to send a message, first print k: the minimum number of computers on a valid route. After this, print an example of such a route. You can print any valid solution.
+
+If there are no routes, print "IMPOSSIBLE".
+
+Constraints
+```
+2≤n≤10e5
+1≤m≤2⋅10e5
+1≤a,b≤n
+```
+
+Example
+```
+Input:
+5 5
+1 2
+1 3
+1 4
+2 3
+5 4
+
+Output:
+3
+1 4 5
+```
+
+- **PREREQUISITES**:
+```
+Minimal knowledge on what graphs are.Please do refer to the conceptual section on graphs if you are a beginner.
+You need to know search algorithms(traversal algorithms) to solve this problem.
+```
+
+- **Solution**:
+
+```
+This is a yet another simple application of bfs. First apply bfs on the start node and find if there's shortest path to the edge you wanna go to.While doing this store the parent node to each of the node so that at the end you can loop from reverse order to print the valid route for the start node and the end node.
+
+we are good to go now.
+```
+
+- **TIME COMPLEXITY**:
+```
+ O(n+m) time, where n is number of vertices and m is the number of edges.
+
+```

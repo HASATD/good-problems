@@ -1,0 +1,52 @@
+You are given a map of a building, and your task is to count the number of its rooms. The size of the map is n×m squares, and each square is either floor or wall. You can walk left, right, up, and down through the floor squares.
+
+Input
+
+The first input line has two integers n and m: the height and width of the map.
+
+Then there are n lines of m characters describing the map. Each character is either . (floor) or # (wall).
+
+Output
+
+Print one integer: the number of rooms.
+
+Constraints
+
+    1≤n,m≤1000
+
+
+Example
+```
+Input:
+5 8
+########
+#..#...#
+####.#.#
+#..#...#
+########
+
+Output:
+3
+```
+
+- **PREREQUISITES**:
+```
+Minimal knowledge on what graphs are.Please do refer to the conceptual section on graphs if you are a beginner.
+You need to know search algorithms(traversal algorithms) to solve this problem.
+```
+
+- **Solution**:
+
+```
+For each unvisited '.' cell we have to make dfs(or bfs)
+and keep on coloring the visited nodes.We keep track number
+of dfs by some count variable our answer would be count.
+
+we are good to go now.
+```
+
+- **TIME COMPLEXITY**:
+```
+ O(n+m) time, where n is number of vertices and m is the number of edges.
+
+```

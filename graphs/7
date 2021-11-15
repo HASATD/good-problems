@@ -1,0 +1,55 @@
+You and some monsters are in a labyrinth. When taking a step to some direction in the labyrinth, each monster may simultaneously take one as well. Your goal is to reach one of the boundary squares without ever sharing a square with a monster.
+
+Your task is to find out if your goal is possible, and if it is, print a path that you can follow. Your plan has to work in any situation; even if the monsters know your path beforehand.
+
+Input
+
+The first input line has two integers n and m: the height and width of the map.
+
+After this there are n lines of m characters describing the map. Each character is . (floor), # (wall), A (start), or M (monster). There is exactly one A in the input.
+
+Output
+
+First print "YES" if your goal is possible, and "NO" otherwise.
+
+If your goal is possible, also print an example of a valid path (the length of the path and its description using characters D, U, L, and R). You can print any path, as long as its length is at most n⋅m steps.
+
+Constraints
+
+    1≤n,m≤1000
+
+
+Example
+```
+Input:
+5 8
+########
+#M..A..#
+#.#.M#.#
+#M#..#..
+#.######
+
+Output:
+YES
+5
+RRDDR
+```
+- **PREREQUISITES**:
+```
+Minimal knowledge on what graphs are.Please do refer to the conceptual section on graphs if you are a beginner.
+You need to know search algorithms(traversal algorithms) to solve this problem.
+```
+
+- **Solution**:
+
+```
+We need to do multisource bfs for this problem.Push all the monsters at the start into the queue so that you can find the shortest distance at which there is 'M' for an edge(lies on the boundary squares) '.' . If there exists one such path such that distance from 'A' to and edge '.' print "YES" and print the path you've taken to reach that '.'. coding is bit trickier.If you've solved the 2nd problem in this section this is coded in pretty much the same way.
+
+we are good to go now.
+```
+
+- **TIME COMPLEXITY**:
+```
+ O(n+m) time, where n is number of vertices and m is the number of edges.(Each '.' is a vertex and there's an edge b/w 'M' and '.','A' and '.', '.' and '.' all are undirected).
+
+```

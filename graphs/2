@@ -1,0 +1,56 @@
+You are given a map of a labyrinth, and your task is to find a path from start to end. You can walk left, right, up and down.
+
+Input
+
+The first input line has two integers n and m: the height and width of the map.
+
+Then there are n lines of m characters describing the labyrinth. Each character is . (floor), # (wall), A (start), or B (end). There is exactly one A and one B in the input.
+
+Output
+
+First print "YES", if there is a path, and "NO" otherwise.
+
+If there is a path, print the length of the shortest such path and its description as a string consisting of characters L (left), R (right), U (up), and D (down). You can print any valid solution.
+
+Constraints
+
+    1≤n,m≤1000
+
+
+Example
+```
+Input:
+5 8
+########
+#.A#...#
+#.##.#B#
+#......#
+########
+
+Output:
+YES
+9
+LDDRRRRRU
+```
+
+- **PREREQUISITES**:
+```
+Minimal knowledge on what graphs are.Please do refer to the conceptual section on graphs if you are a beginner.
+You need to know search algorithms(traversal algorithms) to solve this problem.
+```
+
+- **Solution**:
+
+```
+In this problem, we're asked to find and output the shortest path between two nodes. We can't use DFS here because we're looking for the shortest path. Instead, we can use BFS to solve this problem.Recall the applications of BFS.Note that we can just move from A to a '.' or '.' to '.' or '.' to B.
+
+The underlying concept is pretty much simple we need to be able to apply BFS b/w A and B. But coding this up can become a bit trickier. The code i've given is pretty much clear please do look at it if you are stuck somewhere.
+
+we are good to go now.
+```
+
+- **TIME COMPLEXITY**:
+```
+ O(n+m) time, where n is number of vertices and m is the number of edges.
+
+```
