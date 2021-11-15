@@ -1,0 +1,201 @@
+## Dynamic Programming
+
+- Dynamic programming is used where we have problems, which can be divided into similar sub-problems, so that their results can be re-used.
+- It is generally used in the problems which have optimum substructure property but no greedy choice property.
+
+
+### Longest Increasing Subsequence Problem
+
+input is a sequence of numbers a<sub>1</sub>,a<sub>2</sub>,....a<sub>n</sub>.
+
+subsequence is any subset of these numbers taken in order, of the form a<sub>i1</sub> ; a<sub>i2</sub> ;..... ; a<sub>ik</sub> where  1 <= i1 < i2 < .....< ik <= n, and an increasing subsequence is one in which the numbers are
+getting strictly larger.
+
+**Problem**: Find the increasing subsequence of greatest length.
+**Solution**: 
+- For every number a<sub>i</sub> we find the maximum of the sums of a<sub>j</sub> and 1 for all j<i and a<sub>j</sub> < a<sub>i</sub>. We'll walk through the example after giving the algorithm.
+
+**Algorithm**:
+<hr>
+for i = 1; 2;3,.....; n:
+
+L(i) = 1 + max{L(j) : j<i and a<sub>j</sub> < a<sub>i</sub> }
+
+return max<sub>i</sub> L(i)
+<hr>
+
+- For the given sequence 5,2,8,6,3,6,9,7.
+- first we arrive at 5 and to the left of 5 there's no number thats less than 5 so we get  max{L(j) : j<i and a<sub>j</sub> < a<sub>i</sub> } = 0 so L(5) = 1+0 = 1. And this is true because this subsequence only has 5 so length is 1.
+- Then we arrive at 2 and to the left of 2 there's no  number thats less than 2 so as in the case above we get L(2) = 1.
+- Then we arrive at 8 and to the left of 8 we have 5 and 2 which are less than 8. If we pick either of j=5 or 2 we get L(8) = (L(5) or L(2) )+ 1 = 2.
+- Then we arrive at 6 and to the left of 6 we have 5 and 2 which are less than 8. If we pick either of j= 5 or 2 we get L(6) = (L(5) or L(2) )+ 1 = 2.
+- Then we arrive at 3 to the left of 3 we have 2 which is less than 8. If we pick j=2 we get L(3) = L(2)+ 1 = 2.
+- Then we arrive at 6 and 3 and 2 and 5 are on the left which are less than 6. We pick j=3 since L(3)>L(2) so we get L(6) = L(3) + 1 = 3.
+- Then we arrive at 9 and 5,2,8,6,3,6 are all less than 9. We pick j=3 since L(6)=3 which is largest and we get L(9) = L(6)+1 = 4.
+- Then we arrive at 7 and 5,2,6,3,6 are all less than 7 and to the left of it. We pick j=6 since L(6)=3 is the largest and we end up with L(7) = 4.
+- max of all L(i)'s is 4 . So largest subsequence is of length 4.
+
+**Observations**:
+- **Observation 1**: 
+- This longest subsequence problem can be thought of as a DAG problem with all the numbers in the sequence as nodes for the DAG as shown below,
+   ![dag2](dag2.png)
+ - Infact any dynamic problem can be posed as a question related to DAG.
+ - We replace L(i) = 1 + max{L(j) : j< i and a<sub>j</sub> < a<sub>i</sub>  with L(i) = 1 + max{ L(j) : j<i and (i,j) belongs to the edge set of the above graph} as we can clearly see in the above figure.
+ - Conviniently this problem just has linearized DAG and we just need to find the longest possible path of this DAG among all the edges.
+
+- **Observation 2**: 
+- If the elements are weighted and we need to find the longest subsequence then we just replace L(i) = 1 + max{L(j) : j< i and a<sub>j</sub> < a<sub>i</sub> with L(i) = max{w(j) + L(j) : j< i and a<sub>j</sub> < a<sub>i</sub> . (where w(j) is weight of element j)
+
+- **Observation 3**: 
+- If we want the sequence itself we need to book keep all the a<sub>j</sub>'s for which L(i) = 1 + L(j).
+
+
+
+**NOTE**:
+- A dynamic program in general is a nested for loop of some recursive formula and finally we return the wanted answer .
+- The number of nested loops is equal to the number of parameters that we need to book keep info about.For example in the above largest subsequence problem we have one for loop and we book keep L(i)'s .
+              
+
+
+## Edit Distance:
+
+### Problem:
+- Given two strings str1 and str2 and below operations that can performed on str1. Find minimum number of edits (operations) required to convert ‘str1’ into ‘str2’.  
+
+1.Insert
+ 
+2.Delete
+ 
+3.Substitution.
+ 
+### Solution:
+- Naive algorithm would be checking out all possible edits on str1 and give the minimum possible edits as the answer.But there are many such possbile edits and it would take exponential time to this.
+- This problem has a dynamic programming solution !!
+
+### DP solution:
+- One possible way to look at this problem is to align both the strings as shown in the figure below.
+![snow](snow.png)
+
+- In the above figure we need to edit the string "SNOWY" to "SUNNY". As shown in the figure we would want the cost as the solution to our problem since its the least possible no.of edits.
+- The “−” indicates a “gap”; any number of these can be placed in either string. 
+- The cost of an alignment is the number of columns in which the letters differ. 
+- If we try to go through the example in the above figure, For the left part,The two strings differ at column 2 and we insert 'U' in the gap, at column 4 we substitute 'N' in place of 'O' and at the column 5 we delete 'W' in the string "SNOWY" to get "SUNNY".So total edits we did are 3 and we can see that this is the minimun possible edit distance by trying out all other choices.
+
+#### Sub problems:
+- To find the edit distance between two strings x[1.....m] and y[1......n] we try to look at their prefix strings x[1....i] and y[1....j] to see if we could get something by finding edit distance b/w these prefix strings.
+- We consider the above sub problem as E(i,j).
+- For this E(i,j) we could consider this as some larger problem of the subproblems. The last column of E(i,j) subproblem can be only one of the 3 possiblities below.
+ ![poss][poss.png].
+- So we can write E(i,j) in terms of the subproblems E(i-1,j) , E(i,j-1) , E(i-1,j-1).E(i,j) takes the best possible value from these 3 subproblems.
+- The left most case in the given figure corresponds to a delete operation, the middle one a insert operation, and the right most one corresponds to a substitution operation.
+- So we get E(i, j) = min{1 + E(i − 1, j), 1 + E(i, j − 1), diff(i, j) + E(i − 1, j − 1)} and diff(i,j) = 0 if x[i]=y[j] and 1 otherwise since we only substitute if the character in str1 and character in str2 of the the same column differ otherwise we do nothing.
+- we first fill E(i,0) for all i's as i since if we take some prefix string from the first string x[1.......i] and nothing from the second string we need to do 'i' deletions to convert x[1...j] to string with 0 charachters and for E(0,j) for all j we fill j's as we need j insert operations to convert "" in the first string to y[1....j].
+
+### Algorithm:
+```
+for i = 0, 1, 2, . . . , m:
+E(i, 0) = i
+for j = 1, 2, . . . , n:
+E(0, j) = j
+for i = 1, 2, . . . , m:
+for j = 1, 2, . . . , n:
+E(i, j) = min{E(i − 1, j) + 1, E(i, j − 1) + 1, E(i − 1, j − 1) + diff(i, j)}
+return E(m, n)
+```
+
+- This problem could be thought of as filling the 2 dimensional array with the E(i,j)'s and returning E(m,n) as the final answer as shown in the figure below,
+![array](array.png)
+
+
+### DAG:
+- Since we know that every dynamic programming problem has an implicit DAG we could also think of this problem in terms of a DAG problem.
+- For each operation in the 2D array shown in the above figure if there's an insert or delete or substitution operation occuring we could give that edge a weight of 1 and if there's no change in the characters in a column we could give weight 0 and this problem can be thought of as a DAG problem to find the shortest distance b/w E(0,0) and E(m,n)!!
+- As we can see in the below figure,
+![editdag](editdag.PNG)
+
+
+## Knapsack Problem:
+- **Problem**: Given weights and values of n items, put these items in a knapsack of capacity W to get the maximum total value in the knapsack.
+
+- **Solution**:
+ 
+**With repetition**:
+- With repetition we can choose the same ith item as many times as we want.
+
+**Subproblem**:
+- Say K(w) = maximum value achievable with a knapsack of capacity w.
+- if the optimal solution to K(w) includes some item i, then after removing this item from the knapsack should leave an optimal solution to K(w - wi).
+-  Formulating the above statement, K(w) = K(w - wi) + v<sub>i</sub>, for some i, where v<sub>i</sub> is the cost of w<sub>i</sub>. We don't know what this item is we need to try all possibilities for which w<sub>i</sub> <= w.
+- So we finally have, K(w) = max<sub>w<sub>i</sub><=w</sub>{K(w-w<sub>i</sub>) + v<sub>i</sub>} .So we got our sub structure property.
+- K(0) = 0 is trivial.
+### Algorithm: 
+<hr>
+K(0) = 0
+  
+for w = 1 to W:  
+K(w) = max<sub>w<sub>i</sub><=w</sub>{K(w-w<sub>i</sub>) + v<sub>i</sub>}   
+return K(W)
+
+<hr>
+  
+- This algorithm can be filled in an one-dimensional array of length W + 1 from left to right. Each entry takes order O(n) time and the overall complexity is O(nW).
+- And since every dynamic programming problem can be posed as some operation on a dag, this particular problem can be posed as finding longest path in some dag where the edges are the connections b/w the subproblems and the edge weight is v<sub>i</sub> if i th item is added to K(w).
+  
+**Without Repetition**:
+- So for a problem with repetition not allowed we cannot use the above technique since we were using same item as many times as we want.
+- Here we need to also store whatever the items that we've already picked to avoid duplicates.
+
+**Subproblems**:
+- Say K(w,j) = maximum value achievable using a knapsack of capacity w and items 1,...., j. where 0<=j<=n and n is total no. of items.
+- To calculate K(w,j) we just need to know whether adding the jth item helps or not!!!.
+- So this boils down to K(w,j) = max{K(w - w<sub>j</sub>; j - 1) + v<sub>j</sub> ;K(w , j-1)}
+- K(w - w<sub>j</sub>; j - 1) + v<sub>j</sub> is possible only when w<sub>j</sub> < w
+
+### Algorithm:
+<hr>
+Initialize all K(0,j) = 0 and all K(w, 0) = 0
+                                                                                     
+for j = 1 to n:
+                                                                                     
+for w = 1 to W:
+                                                                                     
+if w<sub>j</sub> > w: K(w, j) = K(w, j - 1)
+  
+else: k(w,j) = max{K(w - w<sub>j</sub>; j - 1) + v<sub>j</sub> ;K(w , j-1)}
+  
+return K(W,n)                                                                                     
+                                                                                     
+ <hr>
+
+- In this algorithm we fill out a two-dimensional array with W + 1 rows and n + 1 columns.
+- Each K(w,j) takes only constant time to compute and overall time complexity is again O(n*W).
+
+
+## Floyd-Warshall Algorithm: 
+
+- **Problem**: shortest distances between every pair of vertices in a given edge weighted Graph. 
+- **Solution** : 
+- If there's no intermediate node b/w vertices u and v then the shortest path is directly the weight of the edge b/w u and v if the edge exists.
+**Subproblem**:
+- Let dist(i, j, k) denote the length of the shortest path from i to j in which only nodes {1, 2, …, k} can be used as intermediate vertices.
+- The idea is to one by one pick all vertices and updates all shortest paths which include the picked vertex as an intermediate vertex in the shortest path. When we pick vertex number k as an intermediate vertex, we already have considered vertices {0, 1, 2, .. k-1} as intermediate vertices. 
+- For every pair (i, j) of the source and destination vertices respectively, there are two possible cases.  
+- If k is not an intermediate vertex in shortest path from i to j. We keep the value of dist(i,j,k-1) as it is. 
+- If k is an intermediate vertex in shortest path from i to j.We update the value of dist(i,j,k) as dist(i,k,k-1) + dist(k,j,k-1) if dist(i,j,k) > dist(i,k,k-1) + dist(k,j,k-1)
+- So we have dist(i, j, k) = min{dist(i, k, k-1) + dist(k, j, k-1); dist(i, j, k-1)}
+
+```
+for i = 1 to n:
+  for j = 1 to n:
+    dist(i, j,0) = infinite
+
+for all (i,j) ∈ E:
+   dist(i, j, 0) = l(i, j)
+for k = 1 to n:
+ for i = 1 to n:
+  for j = 1 to n:
+   dist(i,j,k) = min{dist(i,k,k-1) + dist(k, j, k-1); dist(i, j, k-1)}
+```
+- The complexity is O(n<sup>3</sup>) or O(|V|<sup>3</sup>)
+- **Note** : note the order of the nested loops in the above algorithm,it's because we don't want any deadlocks. To compute dist(i,j,k), dist(i,k,k-1) and dist(k,j,k-1) and dist(i,j,k-1) should be computed and stored in the k-1 iteration.
+- Floyd warshall algorithm also works for the negative edge weight problems(not edge cycles) since we did not use positive edges case while deriving the algorithm.We did not assume anything that is related specifically to positive edges.
