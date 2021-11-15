@@ -1,0 +1,51 @@
+You are given an integer n. On each step, you may subtract one of the digits from the number.
+
+How many steps are required to make the number equal to 0?
+
+Input
+
+The only input line has an integer n.
+
+Output
+
+Print one integer: the minimum number of steps.
+
+Constraints
+
+    1≤n≤10e6
+
+
+Example
+
+Input:
+27
+
+Output:
+5
+
+Explanation: An optimal solution is 27→20→18→10→9→0. 
+
+
+- **PREREQUISITES**:
+```
+Minimal knowledge on what dp is.Please do refer to the conceptual section on dp if you are a beginner.
+
+```
+
+- **Solution**:
+
+```
+define:
+dp[x] = minimum number of operations to go from x to zero.
+
+When considering a number x, for each digit in the decimal representation of x, we can try to remove it. The transition is therefore: dp[x] = min<sub>d∈digits</sub>(x) dp[x-d].
+
+We initialize dp[0] = 0.
+we are good to go now.
+```
+
+- **TIME COMPLEXITY**:
+```
+O(n).
+we can do this in a single loop.
+```

@@ -1,0 +1,56 @@
+Consider an n×n grid whose squares may have traps. It is not allowed to move to a square with a trap.
+
+Your task is to calculate the number of paths from the upper-left square to the lower-right square. You can only move right or down.
+
+Input
+
+The first input line has an integer n: the size of the grid.
+
+After this, there are n lines that describe the grid. Each line has n characters: . denotes an empty cell, and * denotes a trap.
+
+Output
+
+Print the number of paths modulo 10e9+7.
+
+Constraints
+
+    1≤n≤1000
+
+
+Example
+
+Input:
+```
+4
+....
+.*..
+...*
+*...
+
+Output:
+3
+```
+
+- **PREREQUISITES**:
+```
+Minimal knowledge on what dp is.Please do refer to the conceptual section on dp if you are a beginner.
+
+```
+
+- **Solution**:
+
+```
+define:
+dp[r][c] = number of ways to reach row r, column c.
+
+We say there is one way to reach (0,0), dp[0][0] = 1.
+
+When we are at some position with a ., we came either from the left or top. So the number of ways to get to there is the number of ways to get to the position above, plus the number of ways to get to the position to the left. We also need to make sure that the number of ways to get to any position with a # is 0.
+we are good to go now.
+```
+
+- **TIME COMPLEXITY**:
+```
+O(n^2).linear in the no.of cells.
+
+```

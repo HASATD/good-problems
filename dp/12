@@ -1,0 +1,58 @@
+You have n coins with certain values. Your task is to find all money sums you can create using these coins.
+
+Input
+
+The first input line has an integer n: the number of coins.
+
+The next line has n integers x1,x2,…,xn: the values of the coins.
+
+Output
+
+First print an integer k: the number of distinct money sums. After this, print all possible sums in increasing order.
+
+Constraints
+
+    1≤n≤100
+
+
+1≤xi≤1000
+
+
+Example
+```
+Input:
+4
+4 2 5 2
+
+Output:
+9
+2 4 5 6 7 8 9 11 13
+```
+
+
+- **PREREQUISITES**:
+```
+Minimal knowledge on what dp is.Please do refer to the conceptual section on dp if you are a beginner.
+Refer to unbounded knapsack.
+
+```
+
+- **Solution**:
+
+```
+define:
+This is a case of the classical problem called 0-1 knapsack.
+
+dp[i][x] = true if it is possible to make x using the first i coins, false otherwise.
+
+It is possible to make x with the first i coins, if either it was possible with the first i-1 coins, or we chose the i'th coin, and it was possible to make x — <value of i'th coin> using the first i-1 coins.
+
+Note that we only need to consider sums up to 1000 ⋅⋅ n, since we can't make more than that using n coins of value ≤ 1000.
+we are good to go now.
+```
+
+- **TIME COMPLEXITY**:
+```
+The complexity is O(n2⋅maxxi).
+
+```

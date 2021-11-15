@@ -1,0 +1,45 @@
+Given an a×b rectangle, your task is to cut it into squares. On each move you can select a rectangle and cut it into two rectangles in such a way that all side lengths remain integers. What is the minimum possible number of moves?
+
+Input
+
+The only input line has two integers a and b.
+
+Output
+
+Print one integer: the minimum number of moves.
+
+Constraints
+
+    1≤a,b≤500
+
+
+Example
+```
+Input:
+3 5
+
+Output:
+3
+```
+
+- **PREREQUISITES**:
+```
+Minimal knowledge on what dp is.Please do refer to the conceptual section on dp if you are a beginner.
+
+```
+
+- **Solution**:
+
+```
+define:
+dp[w][h] = minimum number of cuts needed to cut a w x h piece into squares.
+
+Consider a w×hw×h piece. If it is already square (w = h), we need 0 cuts. Otherwise, we need to make the first cut either horizontally or vertically. Say we make it horizontally, then we can cut at any position 1,2,..,h-1. If we cut at position k, then we are left with two pieces of sizes w×kw×k and w×h−kw×h−k. We can look up the number of moves to reduce these to squares in the dp array. We loop over all possibilities k and take the best one. Similarly for vertical cuts.
+we are good to go now.
+```
+
+- **TIME COMPLEXITY**:
+```
+The complexity is O(a^2⋅b+a⋅b^2).
+
+```
