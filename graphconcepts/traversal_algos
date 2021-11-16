@@ -1,0 +1,81 @@
+## BFS:
+- Breadth first search is one of the basic and essential searching algorithms on graphs.
+- As a result of how the algorithm works, the path found by breadth first search to any node is the shortest path to that node, i.e the path that contains the smallest number of edges in unweighted graphs.
+- The algorithm works in O(n+m) time, where n is number of vertices and m is the number of edges.
+
+- **Implementation**:
+- The algorithm takes as input an unweighted graph and the id of the source vertex s. The input graph can be directed or undirected, it does not matter to the algorithm.
+
+- The algorithm can be understood as a fire spreading on the graph: at the zeroth step only the source s is on fire. At each step, the fire burning at each vertex spreads to all of its neighbors. In one iteration of the algorithm, the "ring of fire" is expanded in width by one unit (hence the name of the algorithm).
+
+- More precisely, the algorithm can be stated as follows: Create a queue q which will contain the vertices to be processed and a Boolean array used[] which indicates for each vertex, if it has been lit (or visited) or not.
+
+- Initially, push the source s to the queue and set used[s]=true, and for all other vertices v set used[v]=false. Then, loop until the queue is empty and in each iteration, pop a vertex from the front of the queue. Iterate through all the edges going out of this vertex and if some of these edges go to vertices that are not already lit, set them on fire and place them in the queue.
+
+- As a result, when the queue is empty, the "ring of fire" contains all vertices reachable from the source ss, with each vertex reached in the shortest possible way. You can also calculate the lengths of the shortest paths (which just requires maintaining an array of path lengths d[]) as well as save information to restore all of these shortest paths (for this, it is necessary to maintain an array of "parents" p[], which stores for each vertex the vertex from which we reached it).
+
+**CODE**:
+```
+vector<vector<int>> adj;  // adjacency list representation
+int n; // number of nodes
+int s; // source vertex
+
+queue<int> q;
+vector<bool> used(n);
+vector<int> d(n), p(n);
+
+q.push(s);
+used[s] = true;
+p[s] = -1;
+while (!q.empty()) {
+    int v = q.front();
+    q.pop();
+    for (int u : adj[v]) {
+        if (!used[u]) {
+            used[u] = true;
+            q.push(u);
+            d[u] = d[v] + 1;
+            p[u] = v;
+        }
+    }
+}
+```
+**FEW APPLICATIONS**:
+- Find the shortest path from a source to other vertices in an unweighted graph.
+
+- Find all connected components in an undirected graph in O(n+m)O(n+m) time: To do this, we just run BFS starting from each vertex, except for vertices which have already been visited from previous runs. Thus, we perform normal BFS from each of the vertices, but do not reset the array used[]used[] each and every time we get a new connected component, and the total running time will still be O(n+m)O(n+m) (performing multiple BFS on the graph without zeroing the array used[]used[] is called a series of breadth first searches).
+
+- Finding the connected components can be done with dfs as well.
+
+
+## DFS:
+- Depth First Search finds the lexicographical first path in the graph from a source vertex uu to each vertex. Depth First Search will also find the shortest paths in a tree (because there only exists one simple path), but on general graphs this is not the case.
+- The algorithm works in O(m+n) time where nn is the number of vertices and mm is the number of edges.
+- The idea behind DFS is to go as deep into the graph as possible, and backtrack once you are at a vertex without any unvisited adjacent vertices.
+
+- It is very easy to implement the algorithm recursively: We start the search at one vertex. After visiting a vertex, we further perform a DFS for each adjacent vertex that we haven't visited before. This way we visit all vertices that are reachable from the starting vertex.
+
+
+**IMPLEMENTATION**:
+```
+vector<vector<int>> adj; // graph represented as an adjacency list
+int n; // number of vertices
+
+vector<bool> visited;
+
+void dfs(int v) {
+    visited[v] = true;
+    for (int u : adj[v]) {
+        if (!visited[u])
+            dfs(u);
+    }
+}
+```
+**SOME APPLICATIONS**:
+- Find any path in the graph from source vertex u to all vertices.
+
+- Find lexicographical first path in the graph from source u to all vertices.
+
+- Check if a vertex in a tree is an ancestor of some other vertex.
+
+

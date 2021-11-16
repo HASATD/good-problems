@@ -1,0 +1,164 @@
+## Dijkstra (single source shortest path problem):
+- If the weights of all edges are non-negative. You are also given a starting vertex s Dijkstra discusses finding the lengths of the shortest paths from a starting vertex s to all other vertices, and output the shortest paths themselves.
+
+**STEPS**:
+1. Mark the ending vertex with a distance of zero. Designate this vertex as current.
+
+2. Find all vertices leading to the current vertex. Calculate their distances to the end. Since we already know the distance the current vertex is from the end, this will just require adding the most recent edge. Don’t record this distance if it is longer than a previously recorded distance.This step is also called as relaxation.
+
+3. Mark the current vertex as visited. We will never look at this vertex again.
+
+4. Mark the vertex with the smallest distance as current, and repeat from step 2.
+
+
+
+**COMPLEXITY**:
+
+The running time of the algorithm consists of:
+
+- n searches for a vertex with the smallest value d[v] among O(n) unmarked vertices
+- m relaxation attempts
+For the simplest implementation of these operations on each iteration vertex search requires O(n) operations, and each relaxation can be performed in O(1). Hence, the resulting asymptotic behavior of the algorithm is: O(n<sup>2</sup>+m)
+
+**IMPLEMENTATION**:
+```
+const int INF = 1000000000;
+vector<vector<pair<int, int>>> adj;
+
+void dijkstra(int s, vector<int> & d, vector<int> & p) {
+    int n = adj.size();
+    d.assign(n, INF);
+    p.assign(n, -1);
+    vector<bool> u(n, false);
+
+    d[s] = 0;
+    for (int i = 0; i < n; i++) {
+        int v = -1;
+        for (int j = 0; j < n; j++) {
+            if (!u[j] && (v == -1 || d[j] < d[v]))
+                v = j;
+        }
+
+        if (d[v] == INF)
+            break;
+
+        u[v] = true;
+        for (auto edge : adj[v]) {
+            int to = edge.first;
+            int len = edge.second;
+
+            if (d[v] + len < d[to]) {
+                d[to] = d[v] + len;
+                p[to] = v;
+            }
+        }
+    }
+}
+```
+
+
+## IMPLEMENTATION WITH PRIORITY QUEUES:
+
+```
+const int INF = 1000000000;
+vector<vector<pair<int, int>>> adj;
+
+void dijkstra(int s, vector<int> & d, vector<int> & p) {
+    int n = adj.size();
+    d.assign(n, INF);
+    p.assign(n, -1);
+
+    d[s] = 0;
+    using pii = pair<int, int>;
+    priority_queue<pii, vector<pii>, greater<pii>> q;
+    q.push({0, s});
+    while (!q.empty()) {
+        int v = q.top().second;
+        int d_v = q.top().first;
+        q.pop();
+        if (d_v != d[v])
+            continue;
+
+        for (auto edge : adj[v]) {
+            int to = edge.first;
+            int len = edge.second;
+
+            if (d[v] + len < d[to]) {
+                d[to] = d[v] + len;
+                p[to] = v;
+                q.push({d[to], to});
+            }
+        }
+    }
+}
+```
+**NOTE**: Dijkstra doesn't work for negative edge weight graphs.
+
+
+## BELLMAN FORD ALGORITHM:
+
+- Suppose that we are given a weighted directed graph GG with nn vertices and mm edges, and some specified vertex vv. You want to find the length of shortest paths from vertex vv to every other vertex.
+
+- Unlike the Dijkstra algorithm, this algorithm can also be applied to graphs containing negative weight edges . However, if the graph contains a negative cycle, then, clearly, the shortest path to some vertices may not exist (due to the fact that the weight of the shortest path must be equal to minus infinity); however, this algorithm can be modified to signal the presence of a cycle of negative weight, or even deduce this cycle.
+
+
+**DESCRIPTION**:
+```
+Let us assume that the graph contains no negative weight cycle. The case of presence of a negative weight cycle will be discussed below in a separate section.
+
+We will create an array of distances d[0…n−1], which after execution of the algorithm will contain the answer to the problem. In the beginning we fill it as follows: d[v]=0, and all other elements d[] equal to infinity ∞.
+
+The algorithm consists of several phases. Each phase scans through all edges of the graph, and the algorithm tries to produce relaxation along each edge (a,b) having weight cc. Relaxation along the edges is an attempt to improve the value d[b] using value d[a]+cd[a]+c. In fact, it means that we are trying to improve the answer for this vertex using edge (a,b) and current response for vertex aa.
+
+It is claimed that n−1 phases of the algorithm are sufficient to correctly calculate the lengths of all shortest paths in the graph (again, we believe that the cycles of negative weight do not exist). For unreachable vertices the distance d[] will remain equal to infinity ∞.
+```
+
+**CODE**:
+
+```
+struct edge
+{
+    int a, b, cost;
+};
+
+int n, m, v;
+vector<edge> e;
+const int INF = 1000000000;
+
+void solve()
+{
+    vector<int> d (n, INF);
+    d[v] = 0;
+    for (int i=0; i<n-1; ++i)
+        for (int j=0; j<m; ++j)
+            if (d[e[j].a] < INF)
+                d[e[j].b] = min (d[e[j].b], d[e[j].a] + e[j].cost);
+    // display d, for example, on the screen
+}
+```
+
+**BETTER CODE**:
+
+```
+
+void solve()
+{
+    vector<int> d (n, INF);
+    d[v] = 0;
+    for (;;)
+    {
+        bool any = false;
+
+        for (int j=0; j<m; ++j)
+            if (d[e[j].a] < INF)
+                if (d[e[j].b] > d[e[j].a] + e[j].cost)
+                {
+                    d[e[j].b] = d[e[j].a] + e[j].cost;
+                    any = true;
+                }
+
+        if (!any) break;
+    }
+    // display d, for example, on the screen
+}
+```
