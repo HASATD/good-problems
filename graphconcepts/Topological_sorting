@@ -1,0 +1,38 @@
+## Topological Sorting:
+- You are given a directed graph with nn vertices and mm edges. You have to number the vertices so that every edge leads from the vertex with a smaller number assigned to the vertex with a larger one.
+
+**Description**:
+T- o solve this problem we will use depth-first search.
+
+- Let's assume that the graph is acyclic, i.e. there is a solution. What does the depth-first search do? When started from some vertex vv, it tries to run along all edges outgoing from vv. It fails to run along the edges for which the opposite ends have been visited previously, and runs along the rest of the edges and starts from their ends.
+
+- Thus, by the time of the call dfs(v)dfs(v) is ended, all vertices that are reachable from vv either directly (via one edge) or indirectly are already visited by the search. Therefore, if at the time of exit from dfs(v)dfs(v) we add vertex vv to the beginning of a certain list, in the end this list will store a topological ordering of all vertices.
+
+- These explanations can also be presented in terms of time of exit from DFS routine. Exit time for vertex vv is the time at which dfs(v)dfs(v) finished work (the times can be numbered from 11 to nn). It is easy to understand that exit time of any vertex vv is always greater than exit time of any vertex reachable from it (since they were visited either before the call dfs(v)dfs(v) or during it). Thus, the desired topological ordering is sorting vertices in descending order of their exit times.
+
+**Code**
+```
+int n; // number of vertices
+vector<vector<int>> adj; // adjacency list of graph
+vector<bool> visited;
+vector<int> ans;
+
+void dfs(int v) {
+    visited[v] = true;
+    for (int u : adj[v]) {
+        if (!visited[u])
+            dfs(u);
+    }
+    ans.push_back(v);
+}
+
+void topological_sort() {
+    visited.assign(n, false);
+    ans.clear();
+    for (int i = 0; i < n; ++i) {
+        if (!visited[i])
+            dfs(i);
+    }
+    reverse(ans.begin(), ans.end());
+}
+```

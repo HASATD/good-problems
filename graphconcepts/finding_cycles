@@ -1,0 +1,175 @@
+## Finding Cycles:
+
+- Consider a directed or undirected graph without loops and multiple edges. We have to check whether it is acyclic, and if it is not, then find any cycle.
+
+- We can solve this problem by using Depth First Search in O(M) where M is number of edges.
+
+### For directed graphs:
+- We will run a series of DFS in the graph. Initially all vertices are colored white (0). From each unvisited (white) vertex, start the DFS, mark it gray (1) while entering and mark it black (2) on exit. If DFS moves to a gray vertex, then we have found a cycle (if the graph is undirected, the edge to parent is not considered). The cycle itself can be reconstructed using parent array.
+
+**IMPLEMETATION**:
+```
+int n;
+vector<vector<int>> adj;
+vector<char> color;
+vector<int> parent;
+int cycle_start, cycle_end;
+
+bool dfs(int v) {
+    color[v] = 1;
+    for (int u : adj[v]) {
+        if (color[u] == 0) {
+            parent[u] = v;
+            if (dfs(u))
+                return true;
+        } else if (color[u] == 1) {
+            cycle_end = v;
+            cycle_start = u;
+            return true;
+        }
+    }
+    color[v] = 2;
+    return false;
+}
+
+void find_cycle() {
+    color.assign(n, 0);
+    parent.assign(n, -1);
+    cycle_start = -1;
+
+    for (int v = 0; v < n; v++) {
+        if (color[v] == 0 && dfs(v))
+            break;
+    }
+
+    if (cycle_start == -1) {
+        cout << "Acyclic" << endl;
+    } else {
+        vector<int> cycle;
+        cycle.push_back(cycle_start);
+        for (int v = cycle_end; v != cycle_start; v = parent[v])
+            cycle.push_back(v);
+        cycle.push_back(cycle_start);
+        reverse(cycle.begin(), cycle.end());
+
+        cout << "Cycle found: ";
+        for (int v : cycle)
+            cout << v << " ";
+        cout << endl;
+    }
+}
+```
+
+**UNDIRECTED GRAPHS**
+
+Here is an implementation for undirected graph. Note that in the undirected version, if a vertex v gets colored black, it will never be visited again by the DFS. This is because we already explored all connected edges of v when we first visited it. The connected component containing v (after removing the edge between v and its parent) must be a tree, if the DFS has completed processing v without finding a cycle. So we don't even need to distinguish between gray and black states. Thus we can turn the char vector color into a boolean vector visited.
+
+**IMPLEMENTATION**
+
+```
+int n;
+vector<vector<int>> adj;
+vector<bool> visited;
+vector<int> parent;
+int cycle_start, cycle_end;
+
+bool dfs(int v, int par) { // passing vertex and its parent vertex
+    visited[v] = true;
+    for (int u : adj[v]) {
+        if(u == par) continue; // skipping edge to parent vertex
+        if (visited[u]) {
+            cycle_end = v;
+            cycle_start = u;
+            return true;
+        }
+        parent[u] = v;
+        if (dfs(u, parent[u]))
+            return true;
+    }
+    return false;
+}
+
+void find_cycle() {
+    visited.assign(n, false);
+    parent.assign(n, -1);
+    cycle_start = -1;
+
+    for (int v = 0; v < n; v++) {
+        if (!visited[v] && dfs(v, parent[v]))
+            break;
+    }
+
+    if (cycle_start == -1) {
+        cout << "Acyclic" << endl;
+    } else {
+        vector<int> cycle;
+        cycle.push_back(cycle_start);
+        for (int v = cycle_end; v != cycle_start; v = parent[v])
+            cycle.push_back(v);
+        cycle.push_back(cycle_start);
+        reverse(cycle.begin(), cycle.end());
+
+        cout << "Cycle found: ";
+        for (int v : cycle)
+            cout << v << " ";
+        cout << endl;
+    }
+}
+```
+
+## FINDING NEGATIVE CYCLES:
+- You are given a directed weighted graph GG with NN vertices and MM edges. Find any cycle of negative weight in it, if such a cycle exists.
+- we can use bellman ford to do this.
+
+**Description**:
+Do NN iterations of Bellman-Ford algorithm. If there were no changes on the last iteration, there is no cycle of negative weight in the graph. Otherwise take a vertex the distance to which has changed, and go from it via its ancestors until a cycle is found. This cycle will be the desired cycle of negative weight.
+
+**IMPLEMENTATION**:
+```
+struct Edge {
+    int a, b, cost;
+};
+
+int n, m;
+vector<Edge> edges;
+const int INF = 1000000000;
+
+void solve()
+{
+    vector<int> d(n);
+    vector<int> p(n, -1);
+    int x;
+    for (int i = 0; i < n; ++i) {
+        x = -1;
+        for (Edge e : edges) {
+            if (d[e.a] + e.cost < d[e.b]) {
+                d[e.b] = d[e.a] + e.cost;
+                p[e.b] = e.a;
+                x = e.b;
+            }
+        }
+    }
+
+    if (x == -1) {
+        cout << "No negative cycle found.";
+    } else {
+        for (int i = 0; i < n; ++i)
+            x = p[x];
+
+        vector<int> cycle;
+        for (int v = x;; v = p[v]) {
+            cycle.push_back(v);
+            if (v == x && cycle.size() > 1)
+                break;
+        }
+        reverse(cycle.begin(), cycle.end());
+
+        cout << "Negative cycle: ";
+        for (int v : cycle)
+            cout << v << ' ';
+        cout << endl;
+    }
+}
+```
+
+
