@@ -1,0 +1,39 @@
+-**PREREQUISITES**:
+```
+Minimal knowledge on what trees are.Please do refer to the conceptual section on trees if you are a beginner.
+Knowledge on dynamic programming.
+
+```
+
+- **Solution**:
+
+```
+It must be pretty clear after reading the question what to do.
+At any node we can have two possiblities either we pick an edge that contains this node or we donot pick any edge that contains this node.
+If we donot pick any edge that contains this node the answer is simply the sum of the answers that you get for each of it's child nodes!
+If we do pick some edge containing this node then you cannot pick any other edge containing this node. 
+
+we define two dp cases:
+dp(u,0) : max possible size of matching such that there is no edge (u,x) where x is all possible edges.
+
+dp(u,1) : max possible size of matching such that we select one edge of the type (u,x).
+
+Without loss of generality assume that the tree is rooted at node 1. your answer is going to be max(dp(1,0),dp(1,1))!
+
+We need to be able to build a recurrence.
+
+dp(u,0) : say u has child nodes u1,u2 .... 
+
+dp(u,0) = summation of all child nodes (max(dp(ci,0),dp(ci,1))). where ci is child node of u.
+
+for dp(u,1) we have no.of child nodes number of possible options from which we can select an edge.You need to select the best possible option.
+
+dp(u,1) = 1+ prefixsum(ci-1) + dp(ci,0) + suffixsum(ci+1).
+
+we are good to go now.
+```
+
+- **TIME COMPLEXITY**:
+```
+O(N) . we just visit all the nodes once. :)
+```

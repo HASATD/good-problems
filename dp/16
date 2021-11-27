@@ -8,7 +8,7 @@ Minimal knowledge on what dp is.Please do refer to the conceptual section on dp 
 
 ```
 define:
-Even though days can go up to 10^9, we only care about days where we either start or just finished a project. So before doing anything else, we compress all days to their index among all interesting days (i.e days corresponding to aiai or bi+1bi+1 for some i). This way, days range from 0 to less than 2n≤4⋅1052n≤4⋅105.
+Even though days can go up to 10^9, we only care about days where we either start or just finished a project. So before doing anything else, we compress all days to their index among all interesting days (i.e days corresponding to aiai or bi+1bi+1 for some i). This way, days range from 0 to less than 2n≤4⋅10e5.
 
 dp[i] = maximum amount of money we can earn before day i.
 

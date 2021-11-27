@@ -1,0 +1,36 @@
+-**PREREQUISITES**:
+```
+Minimal knowledge on what trees are.Please do refer to the conceptual section on trees if you are a beginner.
+Application of dp concepts.
+
+```
+
+- **Solution**:
+
+```
+Say that without the loss of generality we root the tree at node 1.
+Now we'll have two possibilities for the diameter.Either this diameter contains the root node or it does not contain the root node.
+
+If it doesnot contain the root node the problem breaks into easier subproblems!!Why??If the root node is not included in the diameter then the diameter is in one of the subtrees of the root node's child nodes. 
+
+What if it does contain the root?? we'll define a new term called downpath(x).
+downpath(x) : length of the longest path in the subtree rooted at node x such that the path starts at x.x is one of the terminal nodes of the path.And the longest path is strictly in the subtree.
+
+Say we have root node to be u and its child nodes are c1,c2...ck.
+
+downpath(u) = max(1+downpath(ci)).
+if u is leaf node downpath(u) = 0.
+
+so if the root node is included in the diameter we select two such downpaths of childs of root node such that they are largest.
+
+diameter(u) = 1 + downpath(ck) + downpath(cj).
+
+where ck is the largest downpath and cj is the second largest downpath if we sort the downpaths.
+
+we are good to go now.
+```
+
+- **TIME COMPLEXITY**:
+```
+
+```

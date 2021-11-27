@@ -1,0 +1,19 @@
+-**PREREQUISITES**:
+```
+Minimal knowledge on what trees are.Please do refer to the conceptual section on trees if you are a beginner.well this problem contains easy dp.
+
+```
+
+- **Solution**:
+
+```
+For every employee we have some manager.The structure of the company is a tree with root of the tree being 1(the highest powered manager).We have to find the no.of subordinates for each of the employee.This is nothing but the no.of nodes-1 in the subtree with that particular employee as root node.As no.of nodes in a subtree will also include the manager employee so we subtract 1 from the no.of nodes in that subtree.Let's say we have an employee 'a' and he has subordinates 'a1' and 'a2', If the no.of subordinates of 'a1' is sub(a1) and no.of subordinates of 'a2' is sub(a2) it is easy to see what sub(a) is gonna be! Its simply sub(a1)+1+sub(a2)+1.We can generalise this for 'a' having k nodes if 'a' has k subordinates 'a1','a2' ..... 'ak' then  sub(a) = from i = 1 to k sum(1+sub(ai)).
+We use DFS to go deeper and deeper and calculate no.of subordinates for each child.
+
+we are good to go now.
+```
+
+- **TIME COMPLEXITY**:
+```
+O(N) . we just visit all the nodes once. :)
+```
