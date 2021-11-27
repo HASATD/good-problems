@@ -1,0 +1,29 @@
+- **PREREQUISITES**:
+```
+Minimal knowledge on what graphs are.Please do refer to the conceptual section on graphs if you are a beginner.
+You need to know search algorithms(traversal algorithms) to solve this problem.
+Please check the section on how to find a cycle.
+```
+
+- **Solution**:
+
+```
+The quesiton is about finding cycle in a directed graph. there are 3 types of vertex in dfs
+color 1: white = the vertex is completely unvisited.
+color 2: grey = the vertex whose some but not all child are visited.
+color 3: black = the vertex whose all the child are visited .
+Now there will be a cycle only when the vertex you are currently on has a grey child.
+
+So how will trace the cycle .we can do it by storing the end grey vertex in a variable.
+and add all the vertex when going back in the recursion until that grey vertex is again visited.
+more about it
+
+we are good to go now.
+```
+
+- **TIME COMPLEXITY**:
+```
+We can solve this problem by using Depth First Search in O(M) where M is number of edges.
+ where n is number of vertices and m is the number of edges.
+
+```

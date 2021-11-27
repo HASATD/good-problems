@@ -1,0 +1,22 @@
+- **PREREQUISITES**:
+```
+Minimal knowledge on what graphs are.Please do refer to the conceptual section on graphs if you are a beginner.
+You need to know search algorithms(traversal algorithms) to solve this problem.
+=
+```
+
+- **Solution**:
+
+```
+the problem is can be solved with dp.Here there is no cycle so there could not be an infinite path.
+What we can do if there is a path like A->B . we find maxpath
+for a by just adding 1 to max path of b. dp[a]=max(dp[a],dp[b]+1)
+we are good to go now.
+```
+
+- **TIME COMPLEXITY**:
+```
+O(n+m)
+ where n is number of vertices and m is the number of edges.
+
+```

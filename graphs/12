@@ -1,0 +1,24 @@
+- **PREREQUISITES**:
+```
+Minimal knowledge on what graphs are.Please do refer to the conceptual section on graphs if you are a beginner.
+You need to know search algorithms(traversal algorithms) to solve this problem.
+you need to know about bellman ford algorithm.
+```
+
+- **Solution**:
+
+```
+This problem can be solved using bellman ford algorithm .
+the key idea is relax each edge n(number of node) times if there is no negative cycle
+then because you should have got the final answer in n-1 iterations itself
+which means if there is a negative cycle only then there will be some changes in nth iteration.
+for more info check the graphconcepts section.
+
+we are good to go now.
+```
+
+- **TIME COMPLEXITY**:
+```
+ You can do this by using bellman ford complexity o(n*m), where n is number of vertices and m is the number of edges.
+
+```

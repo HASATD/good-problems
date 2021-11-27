@@ -1,0 +1,24 @@
+- **PREREQUISITES**:
+```
+Minimal knowledge on what graphs are.Please do refer to the conceptual section on graphs if you are a beginner.
+You need to know search algorithms(traversal algorithms) to solve this problem.
+you need to know about bellman ford algorithm.
+```
+
+- **Solution**:
+
+```
+Let say we are at node k we have to find weather there is a positive cycle ending
+at k and if there if a cycle whether there is a path like 1->k->n then ans is zero.
+You can do this by runnig dfs for each node and see if there is cycle ending at
+that node with positive sum.if there is no such cycle you have to find biggest
+route from 1 to n. 
+
+we are good to go now.
+```
+
+- **TIME COMPLEXITY**:
+```
+ You can do this by using bellman ford complexity o(n*m), where n is number of vertices and m is the number of edges.
+
+```

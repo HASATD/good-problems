@@ -1,0 +1,20 @@
+- **PREREQUISITES**:
+```
+Minimal knowledge on what graphs are.Please do refer to the conceptual section on graphs if you are a beginner.
+You need to know search algorithms(traversal algorithms) to solve this problem.
+Please check the section on how to do topological sorting.
+```
+
+- **Solution**:
+
+```
+the problem is about simple topological sort.
+we are good to go now.
+```
+
+- **TIME COMPLEXITY**:
+```
+O(n+m)
+ where n is number of vertices and m is the number of edges.
+
+```
