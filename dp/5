@@ -34,7 +34,7 @@ Minimal knowledge on what dp is.Please do refer to the conceptual section on dp 
 
 - **Solution**:
 
-```
+
 define:
 dp[x] = minimum number of operations to go from x to zero.
 
@@ -42,7 +42,7 @@ When considering a number x, for each digit in the decimal representation of x, 
 
 We initialize dp[0] = 0.
 we are good to go now.
-```
+
 
 - **TIME COMPLEXITY**:
 ```

@@ -1,0 +1,146 @@
+## Lowest common ancestor :
+- Lowest common ancestor of two nodes is the first ancestor that is common to both of the nodes.
+
+![lca](lca_1.png)
+
+For example in the above figure lca(3,4) = 2 , lca(3,5) = 2, lca(7,8) = 7.If we consider a node to be an ancestor to itself.
+
+### Naive approach:
+
+**Idea**: Bring both the nodes to the same level as shown below.Start from the deepest node from the root node(simple apply dfs to find the height of each node from the root node and store the parents of each node also in a parent array.).
+
+![lca_2](lca_2.png)
+![lca_3](lca_3.png)
+
+**Implementation**:
+```
+int LCA(int a,int b){
+
+int d = level[a] - level[b];
+
+while(d>0){
+    b = parent[b];
+    d--;
+}
+
+if(a==b)return a; # This condition is if the nodes are aligned as in the below figure.
+
+while(parent[a]!=parent[b]){
+    a = parent[a];
+    b = parent[b];
+}
+
+return parent[a];
+
+}
+```
+
+![lca_4](lca_4.png)
+
+**Time Complexity**:
+- levels of each node can be stored in an array level before calling the lca function.
+- Since we are bringing each of the nodes to the same level by jumping to one level greater at a time the worst possbile case could be that the work you have to do is O(n)(this is possible if height of the tree is n).The time complexity for each lca call is o(n).
+
+
+## Binary lifting:(Dynamic Programming)
+- O(n) for each call of lca is too much for some cases.So we use binary lifting which could be done in o(logn) time.
+- Say we need to find the lca for nodes u and v. Let the level of node u be level[u] and level of node v be level[v].Then it is quite evident that level(lca(u,v))<=min(level[u],level[v]).
+- In the naive approach we were jumping to one level at a time and hence the worst case complexity is o(n).
+- Instead of making a jump of length 1,we make a jump of highest level l such that l is a power of 2 and l<=d where d is the absolute difference b/w level[u] and level[v].For example if d = 13 we make a jump of length l = 8.
+- But in the naive approach we have the parent array so that we could travel to the node's parent.But here we donot have the ancestor at powers of 2 levels.What do we do??
+- We simply store for each node the ancestor nodes at powers of 2 levels.
+- **Space Complexity**: well we store for each node the powers of 2 but since total no.of nodes are n, max power of 2 is 2<sup>i</sup> <= n and hence i <= log(n) and we need to store nodes from i=0 to i=i which are i+1 in number and since we have n nodes the space complexity is o(nlogn).
+- If n is the total no.of nodes and maxN = log(n) we define a 2-dimensional array LCA[n+1][maxN] where LCA[i][j] is the 2<sup>j</sup> th parent of i.
+- 2<sup>0</sup> th ancestor of every node could be calculated by applying dfs.
+- we need other powered ancestors now.
+- **SUBPROBLEM**:Notice that 2<sup>i</sup> can be written as 2 x 2<sup>i-1</sup>. If we know 2<sup>i-1</sup> th ancestor of a node we can ask that ancestor its 2<sup>i-1</sup> th ancestor and we'll get 2<sup>i</sup> th ancestor of the given node.
+- We are done now!!! We just need to fill the 2 dimensional table. Now we can make 2<sup>i</sup> th jumps.
+
+
+**IMPLEMENTATION**:
+```
+void init(){
+    dfs(1,-1); // if 1 is the root node
+    for(int j=1;j<=maxN;j++){
+        for(int i=1;i<=N;i++){
+            if(LCA[i][j-1]!=-1){
+                int parent = LCA[[i][j-1];
+                LCA[i][j] = LCA[parent][j-1];
+            }
+        }
+    }
+}
+```
+- The above implementation is for getting the 2^j th ancestors of each node.
+
+**IMPLEMENTATION**: (FOR THE LCA PART)
+```
+
+int LCA(int a,int b){
+
+int d = level[a] - level[b];
+
+while(d>0){ // we have solved this now
+    int i = log(d);
+    b=LCA[b][i];
+    d-=(1<<i);
+}
+
+if(a==b)return a; # This condition is if the nodes are aligned as in the below figure.
+
+while(LCA[a][0]!=LCA[b][0]){// But this step might take o(n) in the worst case we need to solve this also.
+    a = LCA[a][0];
+    b = LCA[b][0];
+}
+
+return parent[a];
+
+}
+```
+
+
+
+```
+
+int LCA(int a,int b){
+
+int d = level[a] - level[b];
+
+while(d>0){ // we have solved this now
+    int i = log(d);
+    b=LCA[b][i];
+    d-=(1<<i);
+}
+
+if(a==b)return a; # This condition is if the nodes are aligned as in the below figure.
+
+// we changed the part below, what we wanna do is to take a maximum possible jumps.but if LCA[a][i] = LCA[b][i] we might have missed the lca of a and b .
+
+for(int i=maxN;i>=0;i++){
+    if(LCA[a][i]!=-1 &&(LCA[a][i]!=LCA[b][i])){
+        a = LCA[a][i];b=LCA[b][i];
+    }
+
+}
+
+return parent[a];
+
+}
+```
+
+
+**TIME COMPLEXITY**:
+
+**Proof-1**: maximum(2<sup>j</sup>) j=0,1,2... such that 2<sup>j</sup> <= d follows the rule 2<sup>j</sup> >= d/2.
+
+- We can prove this by contradiction. Say 2<sup>j</sup> <= d/2 .
+- we then have 2<sup>j+1</sup> <= d. But we have assumed that j is maximum such that 2<sup>j</sup> <= d.
+- Hence this is a contradiction and our assumption is wrong.
+
+- Based on the above proof we can derive the time complexity.
+- Since 2<sup>j</sup> >= d/2 the no.of steps we need would be in the worst case d/2 + d/4 + d/8 + ...... . This is the complexity o(logn) where n is the no.of nodes.since max possible value of d is n.
+
+ 
+
+
+

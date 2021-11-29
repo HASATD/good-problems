@@ -45,12 +45,12 @@ dp[r][c] = number of ways to reach row r, column c.
 
 We say there is one way to reach (0,0), dp[0][0] = 1.
 
-When we are at some position with a ., we came either from the left or top. So the number of ways to get to there is the number of ways to get to the position above, plus the number of ways to get to the position to the left. We also need to make sure that the number of ways to get to any position with a # is 0.
+When we are at some position with a ., we came either from the left or top. So the number of ways to get to there is the number of ways to get to the position above, plus the number of ways to get to the position to the left. We also need to make sure that the number of ways to get to any position with a * is 0.
 we are good to go now.
 ```
 
 - **TIME COMPLEXITY**:
 ```
-O(n^2).linear in the no.of cells.
+O(n^2).linear in the no.of cells as no.of cells is n^2.
 
 ```

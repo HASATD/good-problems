@@ -41,8 +41,7 @@ Minimal knowledge on what trees are.Please do refer to the conceptual section on
 - **Solution**:
 
 ```
-
-
+without loss of generality assume that we root the tree at 1st node. First we calculate subtree sizes for each node.This can be done using a simple dfs on the tree.Now start at the root node i.e 1 and check the subtree sizes of its children and if one of the child has size >n/2 we'll move on to that subtree and centroid must be in that subtree and we repeat the same thing as we did with the root.NOte that Since one of the subtree has size > n/2 others will be less than n/2.
 
 we are good to go now.
 ```
