@@ -6,4 +6,4 @@
 - Others
 
 - Please do try doing the questions on your own first :). cheers!
-- Solve the questions in order 1->2->3 ... if you are a beginner.
+- Solve the questions in the order 1->2->3 ... if you are a beginner.
