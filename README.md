@@ -1,3 +1,8 @@
-# good-problems
+# Problem set: Beginner to moderate level.
 
-*Concurrency is about dealing with lots of things at once. Parallelism is about doing lots of things at once.
+- Graphs 
+- Dynamic Programming
+- Trees
+- Others
+
+- Please do try doing the questions on your own first :). cheers!
