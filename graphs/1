@@ -11,9 +11,9 @@ Output
 Print one integer: the number of rooms.
 
 Constraints
-
+```
     1≤n,m≤1000
-
+```
 
 Example
 ```
